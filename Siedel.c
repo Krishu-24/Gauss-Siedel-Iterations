@@ -2,8 +2,8 @@
 #include<math.h>
 int main()
 {
-    int tz,ty,tx,num=1,nvar;
-    float a1,a2,a3,a4,ta,b1,b2,b3,b4,tb,c1,c2,c3,c4,tc,const1,const2,const3,const4,tempconst,xn,yn,zn,g,h,k;
+    int tz,ty,tx,num=1,nvar,iter=1;
+    float a1,a2,a3,a4,ta,b1,b2,b3,b4,tb,c1,c2,c3,c4,tc,const1,const2,const3,const4,tempconst,xn,yn,zn;
     printf("enter coeff of x,y,z and constant in first equation");
     scanf("%f,%f,%f,%f",&a1,&b1,&c1,&const1);
     printf("enter coeff of x,y,z and constant in second equation");
@@ -12,10 +12,7 @@ int main()
     scanf("%f,%f,%f,%f",&a3,&b3,&c3,&const3);
     printf("x\t\ty\t\tz\n");
     float x1=0,y1=0,z1=0,z2=0;
-    if(nvar!=3 && nvar!=4)
-    {
-        printf("sowwy,havent written the code yet ,im just a human\n");
-    }
+    
     //checking diagonal
     if(fabs(a1)>(fabs(b1)+fabs(c1)) && fabs(b2)>(fabs(a2)+fabs(c2)) && fabs(c3)>(fabs(a3)+fabs(b3)))
     {
@@ -66,20 +63,15 @@ int main()
 
     }   
     }
-    while(1)
+    while(iter<50)//maximum 50 iterations
     {
         xn=(const1-(y1*b1)-(z1*c1))/a1;
         yn=(const2-(xn*a2)-(z1*c2))/b2;
         zn=(const3-(a3*xn)-(b3*yn))/c3;
-        g=xn*1000;
-        h=yn*1000;
-        k=zn*1000;
-        tx=roundf(g);
-        ty=roundf(h);
-        tz=roundf(k);
-        xn=tx/(float)1000;
-        yn=ty/(float)1000;
-        zn=tz/(float)1000;
+        
+        xn=roundf(xn*1000)/(float)1000;
+        yn=roundf(yn*1000)/(float)1000;
+        zn=roundf(zn*1000)/(float)1000;
         printf("%f\t%f\t%f\n",xn,yn,zn);
         if(x1==xn && y1==yn && z1==zn)
         {
@@ -88,9 +80,10 @@ int main()
         x1=xn;
         y1=yn;
         z1=zn;
-        num=num+1;
+        num+=1;
+        iter+=1
     }
     printf("number of iterations= %d\n",num);
-    printf("the value of x is %.4f ,y is %.4f ,z is %.4f\n",xn,yn,zn);
+    printf("the value of x is %.3f ,y is %.3f ,z is %.3f\n",xn,yn,zn);
     return (0);
 }
